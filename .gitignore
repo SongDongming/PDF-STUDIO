@@ -1,0 +1,17 @@
+node_modules/
+dist/
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+.cache/
+__pycache__/
+*.pyc
+backend/.venv/
+backend/.env
+backend/data/
+infra/.env
+infra/ocr.env
+operations/local/.runtime/
+operations/dspark/*.pid
+*.log
+.local-secrets.yaml

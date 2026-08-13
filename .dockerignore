@@ -1,0 +1,19 @@
+# Keep build contexts small and secrets out of images.
+node_modules
+**/node_modules
+.venv
+**/.venv
+dist
+.git
+__pycache__
+**/__pycache__
+*.log
+*.tsbuildinfo
+.cache
+.vite
+
+# Secrets (never shipped into an image)
+infra/.env
+infra/ocr.env
+.local-secrets.yaml
+backend/.env
