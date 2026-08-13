@@ -5,6 +5,9 @@
 # backend service (see infra/nginx.conf).
 FROM node:20-alpine AS build
 WORKDIR /app
+# 国内服务器访问 npm 官方源不稳定；默认走 npmmirror，可用 --build-arg 覆盖。
+ARG NPM_CONFIG_REGISTRY=https://registry.npmmirror.com
+ENV npm_config_registry=${NPM_CONFIG_REGISTRY}
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
