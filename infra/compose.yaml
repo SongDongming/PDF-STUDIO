@@ -34,6 +34,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:?set POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER:?set POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+    # 小内存（2G）服务器：压缩 shared_buffers，留内存给其余容器。
+    command: ["postgres", "-c", "shared_buffers=64MB", "-c", "max_connections=100"]
     volumes:
       - postgres-data:/var/lib/postgresql/data
     ports:
@@ -69,6 +71,12 @@ services:
       NEO4J_AUTH: neo4j/${NEO4J_PASSWORD:?set NEO4J_PASSWORD}
       NEO4J_PLUGINS: '["apoc"]'
       NEO4J_dbms_security_procedures_unrestricted: apoc.*
+      # 小内存（2G）服务器：把 JVM 堆和 page cache 压到可控范围，
+      # 否则 Neo4j 默认抢占数 GB 内存触发 OOM。
+      NEO4J_server_memory_heap_initial__size: 128m
+      NEO4J_server_memory_heap_max__size: 256m
+      NEO4J_server_memory_pagecache_size: 128m
+      NEO4J_dbms_memory_transaction_total_max__size: 64m
     volumes:
       - neo4j-data:/data
     ports:
